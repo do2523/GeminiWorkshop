@@ -1,32 +1,23 @@
-// Use the Gemini API
-// Gemini - LLM - Like CHATGPT but Google's version
-// API -  Set of rules that allows different software programs to communicate and exchange data with each other.
-
-
-// importing the necessary libararies
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-require("dotenv").config();
-
-// Create a new instance of the GoogleGenerativeAI class
-const genAI = new GoogleGenerativeAI(process.env.APIKEY);
-
-// passing in the model 
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-
-// question to ask the model
-const prompt = "tell me a short story";
-
-
-// async function to generate the response
-async function generateResponse() {
+async function fetchGeminiResponse() {
     try {
-        let result = await model.generateContent(prompt);
-        console.log(result.response.candidates[0].content.parts[0].text);
+        const promptHTML = document.getElementById("geminiInput").value;
+        const response = await fetch("http://localhost:3000/generate", { 
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ prompt: promptHTML })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.statusText}`); 
+        }
+
+        const data = await response.json();
+        console.log(data.response);
+        document.getElementById("geminiResponse").textContent = data.response;
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching response:", error);
+        document.getElementById("geminiResponse").textContent = `Error fetching response: ${error.message}`; // Show specific error
     }
 }
-
-generateResponse();
-
