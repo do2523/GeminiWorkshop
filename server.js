@@ -27,3 +27,6 @@ app.post("/server", async (req, res) => {
 });
 
 module.exports = app;
+app.listen(80, () => {
+    console.log("Server running on port 3000");
+});
