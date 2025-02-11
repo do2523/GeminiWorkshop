@@ -5,7 +5,6 @@ require("dotenv").config();
 
 
 const app = express();
-const PORT = 3000;
 
 app.use(cors()); // Allows the frontend to call this API
 app.use(express.json());
@@ -27,6 +26,4 @@ app.post("/server", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+module.exports = app;
