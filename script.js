@@ -1,7 +1,7 @@
 async function fetchGeminiResponse() {
     try {
         const promptHTML = document.getElementById("geminiInput").value;
-        const response = await fetch("http://localhost:3000/generate", { 
+        const response = await fetch("https://gemini-workshop.vercel.app/generate", { 
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
